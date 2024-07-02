@@ -1,3 +1,1 @@
-query_id=AAEKs0EJAwAAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-query_id=AAFHzU0pAwAAAEfccccccccccccccccccccccccccccccccccc
-query_id=AAGgJegAAwAAAKAl6Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+query_id=AAH3rkgjAAAAAPeuSCMVzsge&user=%7B%22id%22%3A591965943%2C%22first_name%22%3A%22%24CFI%20Ersa%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22Parindra%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1719942908&hash=88f5bbf9e85ecee2bec8865be645dfba5fa5325ec380098113295757d4362720
