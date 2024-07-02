@@ -65,6 +65,9 @@ const checkTasks = async authorization => {
     const response = await axios.get(url, {
         headers: { Authorization: authorization }
     });
+    if (!response.data.data || !response.data.data.taskDetails) {
+        throw new Error('Invalid response format from checkTasks API');
+    }
     return response.data.data.taskDetails;
 };
 
@@ -81,7 +84,7 @@ const levelUp = async authorization => {
     const response = await axios.post(url, null, {
         headers: { Authorization: authorization }
     });
-    return response.data.returnCode === 200 ? 'Success' : '\x1b[31mFailed\x1b[0m';
+    return response.data.returnCode === 200 ? 'Success' : 'Failed';
 };
 
 const askQuestion = question => {
@@ -107,18 +110,22 @@ const processAccount = async (authorization, autoClearTasks, autoMaxLevelUp) => 
         }
 
         if (autoClearTasks) {
-            const tasks = await checkTasks(authorization);
-            for (const task of tasks) {
-                if (!task.finished) {
-                    try {
-                        const finishStatus = await finishTask(authorization, task.taskId);
-                        const statusMessage = finishStatus.returnCode === 200 ? 'Success' : 'Failed';
-                        console.log(getTimeStamp() + `Task ${task.taskId} (${task.taskName}) - ${statusMessage}`);
-                    } catch (error) {
-                        console.error(getTimeStamp() + `Error finishing task ${task.taskId}:`, error);
+            try {
+                const tasks = await checkTasks(authorization);
+                for (const task of tasks) {
+                    if (!task.finished) {
+                        try {
+                            const finishStatus = await finishTask(authorization, task.taskId);
+                            const statusMessage = finishStatus.returnCode === 200 ? 'Success' : 'Failed';
+                            console.log(getTimeStamp() + `Task ${task.taskId} (${task.taskName}) - ${statusMessage}`);
+                        } catch (error) {
+                            console.error(getTimeStamp() + `Error finishing task ${task.taskId}:`, error);
+                        }
+                        await delay(1000);
                     }
-                    await delay(1000);
                 }
+            } catch (error) {
+                console.error(getTimeStamp() + 'Error checking tasks:', error);
             }
         }
 
